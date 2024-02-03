@@ -1,6 +1,7 @@
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
+import pdb
 
 def load_dict(filename_):
     with open(filename_, 'rb') as f:
@@ -9,12 +10,14 @@ def load_dict(filename_):
 
 paths = load_dict("tree_construction/path")
 
-x = []
-y = []
+pdb.set_trace()
 
-for pt in paths:
-    x.append(pt[0])
-    y.append(pt[1])
-
-plt.scatter(x, y)
+plt.clf()
+for path in paths:
+    x = []
+    y = []
+    for pt in path:
+        x.append(pt[0])
+        y.append(pt[1])
+    plt.scatter(x, y)
 plt.show()

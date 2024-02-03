@@ -149,12 +149,18 @@ def get_inlet2_segmentations(geo_params):
 
     char_len = geo_params["r2"]
     char_len = 0.23*15
-    y_in = np.linspace(-3*char_len/2,0.0*geo_params["r3"], num_pts, endpoint = True)
+    
+    y_in = np.linspace(-3*char_len,0.0*geo_params["r3"], num_pts, endpoint = True)
 
-    inlet_path_points_list_orig = [[0.0, float(y)+char_len/2, 0.0] for y in y_in]
+    up_shift = 3*char_len/2
+    inlet_path_points_list_orig = [[0.0, float(y)+up_shift, 0.0] for y in y_in]
     inlet_path_points_list = []
     x_shift = -np.sin(geo_params["angle3"]*np.pi/180)*0.5310796510320017*20
     y_shift = np.cos(geo_params["angle3"]*np.pi/180)*0.5310796510320017*20
+
+    pulmo_in = print("Pulmo inlet = " + str((-np.sin(geo_params['angle3']*np.pi/180)*(up_shift-char_len/2))+x_shift) \
+                     + ", " + str((np.cos(geo_params['angle3']*np.pi/180)*(up_shift-char_len/2))+y_shift))
+    
     for point in inlet_path_points_list_orig:
 
         inlet_path_points_list.append([(np.cos(geo_params["angle3"]*np.pi/180)*point[0] - np.sin(geo_params["angle3"]*np.pi/180)*point[1])+x_shift, 
@@ -211,7 +217,8 @@ def get_u2_segmentations(geo_params):
     inset = 1
     #char_len = geo_params["inlet_radius"]*12
     char_len = 0.23*20
-    y_in = np.linspace(-char_len, 0, num_pts+1, endpoint = True)
+    up_shift = 3*0.23*15/2
+    #y_in = np.linspace(-char_len, 0, num_pts+1, endpoint = True)
 
 
     r = np.linspace(0, char_len, num_pts, endpoint = True)#[2:]
@@ -220,7 +227,7 @@ def get_u2_segmentations(geo_params):
     outlet1_x = r * np.cos(theta) #+  geo_params["inlet_radius"]/2
     outlet1_y = r * np.sin(theta)
     outlet1_y = outlet1_y #-  geo_params["inlet_radius"]*1.5
-    outlet1_path_points_list_orig = [[float(outlet1_x[i]), float(outlet1_y[i]) + 0.23*15/2, 0.0] for i in range(1, num_pts)]
+    outlet1_path_points_list_orig = [[float(outlet1_x[i]), float(outlet1_y[i]) + up_shift, 0.0] for i in range(1, num_pts)]
     outlet1_path_points_list_orig.reverse()
 
 
@@ -230,9 +237,9 @@ def get_u2_segmentations(geo_params):
     outlet2_x = r * np.cos(theta) #-  geo_params["inlet_radius"]/2
     outlet2_y = r * np.sin(theta)
     outlet2_y = outlet2_y #- geo_params["inlet_radius"]*1.5
-    outlet2_path_points_list_orig = [[float(outlet2_x[i]), float(outlet2_y[i]) + 0.23*15/2, 0.0] for i in range(1, num_pts)]
+    outlet2_path_points_list_orig = [[float(outlet2_x[i]), float(outlet2_y[i]) + up_shift, 0.0] for i in range(1, num_pts)]
 
-    outlet1_path_points_list_orig.append([0.0, char_len/2, 0.0])
+    outlet1_path_points_list_orig.append([0.0, up_shift, 0.0])
     outlet1_path_points_list = []
     x_shift = -np.sin(geo_params["angle3"]*np.pi/180)*0.5310796510320017*20
     y_shift = np.cos(geo_params["angle3"]*np.pi/180)*0.5310796510320017*20
@@ -294,26 +301,26 @@ def get_u2_segmentations(geo_params):
     for i in range(num_el_pts):
         z = r_side * (1-i /num_el_pts)
         y = r_top * np.sqrt(1 - (z/r_side)**2)
-        contour_pts.append([-np.sin(geo_params["angle3"]*np.pi/180)*(y + 0.23*15/2) + x_shift, 
-                           np.cos(geo_params["angle3"]*np.pi/180) * (y + 0.23*15/2) + y_shift, z])
+        contour_pts.append([-np.sin(geo_params["angle3"]*np.pi/180)*(y + up_shift) + x_shift, 
+                           np.cos(geo_params["angle3"]*np.pi/180) * (y + up_shift) + y_shift, z])
 
     for i in range(num_el_pts):
         z = -r_side * (i /num_el_pts)
         y = r_top * np.sqrt(1 - (z/r_side)**2)
-        contour_pts.append([-np.sin(geo_params["angle3"]*np.pi/180)*(y + 0.23*15/2) + x_shift, 
-                            np.cos(geo_params["angle3"]*np.pi/180) * (y + 0.23*15/2) + y_shift, z])
+        contour_pts.append([-np.sin(geo_params["angle3"]*np.pi/180)*(y + up_shift) + x_shift, 
+                            np.cos(geo_params["angle3"]*np.pi/180) * (y + up_shift) + y_shift, z])
 
     for i in range(num_el_pts):
         z = -r_side * (1- i /num_el_pts)
         y = -r_top * np.sqrt(1 - (z/r_side)**2)
-        contour_pts.append([-np.sin(geo_params["angle3"]*np.pi/180)*(y + 0.23*15/2) + x_shift,
-                            np.cos(geo_params["angle3"]*np.pi/180) * (y + 0.23*15/2) + y_shift, z])
+        contour_pts.append([-np.sin(geo_params["angle3"]*np.pi/180)*(y + up_shift) + x_shift,
+                            np.cos(geo_params["angle3"]*np.pi/180) * (y + up_shift) + y_shift, z])
 
     for i in range(num_el_pts):
         z = r_side * (i /num_el_pts)
         y = -r_top * np.sqrt(1 - (z/r_side)**2)
-        contour_pts.append([-np.sin(geo_params["angle3"]*np.pi/180)*(y + 0.23*15/2) + x_shift, 
-                            np.cos(geo_params["angle3"]*np.pi/180) * (y + 0.23*15/2) + y_shift, z])
+        contour_pts.append([-np.sin(geo_params["angle3"]*np.pi/180)*(y + up_shift) + x_shift, 
+                            np.cos(geo_params["angle3"]*np.pi/180) * (y + up_shift) + y_shift, z])
 
     contour = sv.segmentation.Contour(contour_pts)
     segmentations.append(contour)
@@ -330,7 +337,7 @@ def save_path(paths):
     total_path_list = []
 
     for path in paths:
-        total_path_list += path.get_control_points()
+        total_path_list += [path.get_control_points(),]
     save_dict(total_path_list, "tree_construction/path")
 
 def get_tree_segmentation(geo_params):
