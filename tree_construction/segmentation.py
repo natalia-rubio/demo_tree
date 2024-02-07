@@ -213,10 +213,10 @@ def get_inlet2_segmentations(geo_params):
 
 def get_u2_segmentations(geo_params):
     print(geo_params)
-    num_pts = 4#10
+    num_pts = 2*4#10
     inset = 1
     #char_len = geo_params["inlet_radius"]*12
-    char_len = 0.23*20
+    char_len = 0.23*20*2
     up_shift = 3*0.23*15/2
     #y_in = np.linspace(-char_len, 0, num_pts+1, endpoint = True)
 
@@ -231,7 +231,6 @@ def get_u2_segmentations(geo_params):
     outlet1_path_points_list_orig.reverse()
 
 
-    r = np.linspace(0, char_len, num_pts, endpoint = True)#[2:]
     theta = np.ones((num_pts,)) * geo_params["angle5"]
     theta = np.pi/2 - np.pi * theta / 180
     outlet2_x = r * np.cos(theta) #-  geo_params["inlet_radius"]/2

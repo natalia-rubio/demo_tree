@@ -47,7 +47,7 @@ def sort_result(sol_path1d, only_caps=False, num_time_steps = 800):
                        "z": locs[:,2],
                        "dist": dist,
                        "pressure": soln_array[f"pressure_00{num_time_steps}"][branch_pts][ordered_inds],
-                       "flow": soln_array[f"pressure_00{num_time_steps}"][branch_pts][ordered_inds]}
+                       "flow": soln_array[f"velocity_00{num_time_steps}"][branch_pts][ordered_inds]}
         
         branch_soln_dict.update({i : branch_dict})
     
@@ -66,22 +66,40 @@ def get_node_data(sol_path1d, only_caps=False, num_time_steps = 800):
     junction_id = soln_array["BifurcationId"].astype(int)
 
     point_list = ["aorta_inlet", "aorta_right_outlet", "aorta_left_outlet", "pulmo_inlet", "pulmo_right_outlet", "pulmo_left_outlet"]
-    points_of_interest = np.asarray([[0, 3.633, -3.633, -4.813,-5.724, -8.107],
+    points_of_interest = np.asarray([[0, 3.633, -3.633, -4.813, -5.724, -8.107],
             [-3.983, 9.981, 9.981, 13.223, 19.433, 18.565],
             [0,0,0,0,0,0]]).T
     node_data_dict = dict()
     for i in range(len(point_list)):
         #pdb.set_trace()
-        point_ind = np.argmin(np.linalg.norm(points - points_of_interest[i,:], axis = 1))
+        point_ind = pt_id[np.argmin(np.linalg.norm(points - points_of_interest[i,:], axis = 1))]
+        branch_id_curr = branch_id[point_ind]
 
-        node_data_dict.update({point_list[i] : {"index" : point_ind,
+        branch_pts = np.where(branch_id == branch_id_curr)
+        ordered_inds = np.argsort(pt_id[branch_pts])
+        ordered_pts = pt_id[branch_pts][ordered_inds]
+        ordered_point_ind = np.where(ordered_pts == point_ind)[0][0]
+        locs = (points[branch_pts])[ordered_inds]
+        
+        #pdb.set_trace()
+        if "inlet" in point_list[i]:
+            dist_to_bif = np.sum(np.linalg.norm(locs[ordered_point_ind+1:,:] - locs[ordered_point_ind:-1,:], axis = 1))
+
+        elif "outlet" in point_list[i]:
+            dist_to_bif = np.sum(np.linalg.norm(locs[1:ordered_point_ind,:] - locs[0:ordered_point_ind-1,:], axis = 1))
+        
+
+
+        node_data_dict.update({i             : {"index" : point_ind,
+                                                "name"  : point_list[i],
                                                 "gid"   : pt_id[point_ind],
                                                 "x"     : points[point_ind, 0],
                                                 "y"     : points[point_ind, 1],
                                                 "z"     : points[point_ind, 2],
                                                 "pressure" : soln_array[f"pressure_00{num_time_steps}"][point_ind],
-                                                "flow"     : soln_array[f"pressure_00{num_time_steps}"][point_ind],
-                                                "area"     : soln_array[f"area"][point_ind]}})
+                                                "flow"     : soln_array[f"velocity_00{num_time_steps}"][point_ind],
+                                                "area"     : soln_array[f"area"][point_ind],
+                                                "dist_to_bif" : dist_to_bif}})
     print(node_data_dict)    
     save_dict(node_data_dict, "synthetic_tree/node_data_dict")
     return
