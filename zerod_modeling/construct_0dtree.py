@@ -30,7 +30,7 @@ def get_cval_dict(node_data_dict):
             v_name = "pulmo_left_outlet"
             length = 0
 
-        A_nom = np.pi*node_data_dict[i]["area"]
+        A_nom = node_data_dict[i]["area"]
         radius = np.sqrt(A_nom/np.pi)
         A_sten = A_nom*1.001
         cval_dict.update({i: {"r_poiseuille" : 8*mu*length/(np.pi*(radius**4)),
@@ -84,7 +84,7 @@ def get_input_dict(cval_dict, coef_dict):
             "bc_type": "RESISTANCE",
             "bc_values": {
                 "Pd": 0.0,
-                "R": 100.0
+                "R": 0.0 #100.0
             }
         },
         {
@@ -92,7 +92,7 @@ def get_input_dict(cval_dict, coef_dict):
             "bc_type": "RESISTANCE",
             "bc_values": {
                 "Pd": 0.0,
-                "R": 100.0
+                "R": 0.0 #100.0
             }
         },
         {
@@ -116,9 +116,10 @@ def get_input_dict(cval_dict, coef_dict):
                 2
             ],
             "junction_values": {
-                "R_poiseuille": [0,]+list(-1*coef_dict["Aorta"][0]),
-                "L": [0,]+list(-1*coef_dict["Aorta"][2]),
-                "stenosis_coefficient": [0,]+list(-1*coef_dict["Aorta"][1])
+                "R_poiseuille": list(-1*coef_dict["Aorta"][1]),
+                "L": list(-1*coef_dict["Aorta"][2]),
+                #"C": [0,]+list(0*coef_dict["Aorta"][0]),
+                "stenosis_coefficient": list(-1*coef_dict["Aorta"][0])
             }
         },
         {
@@ -132,9 +133,10 @@ def get_input_dict(cval_dict, coef_dict):
                 4
             ],
             "junction_values": {
-                "R_poiseuille": [0,]+list(-1*coef_dict["Pulmo"][0]),
-                "L": [0,]+list(-1*coef_dict["Pulmo"][2]),
-                "stenosis_coefficient": [0,]+list(-1*coef_dict["Pulmo"][1])
+                "R_poiseuille": list(-1*coef_dict["Pulmo"][1]),
+                "L": list(-1*coef_dict["Pulmo"][2]),
+                #"C": [0,]+list(0*coef_dict["Pulmo"][0]),
+                "stenosis_coefficient": list(-1*coef_dict["Pulmo"][0])
             }
         }
     ],
@@ -154,6 +156,7 @@ def get_input_dict(cval_dict, coef_dict):
             "zero_d_element_values": {
                 "R_poiseuille": cval_dict[0]["r_poiseuille"],
                 "L": cval_dict[0]["inductance"],
+                "C": 0,
                 "stenosis_coefficient": cval_dict[0]["r_stenosis"]
             }
         },
@@ -168,6 +171,7 @@ def get_input_dict(cval_dict, coef_dict):
             "zero_d_element_values": {
                 "R_poiseuille": cval_dict[1]["r_poiseuille"],
                 "L": cval_dict[1]["inductance"],
+                "C": 0,
                 "stenosis_coefficient": cval_dict[1]["r_stenosis"]
             }
         },
@@ -176,11 +180,12 @@ def get_input_dict(cval_dict, coef_dict):
             },
             "vessel_id": 2,
             "vessel_length": cval_dict[2]["length"],
-            "vessel_name": "branch2_seg0",
+            "vessel_name": cval_dict[2]["name"],
             "zero_d_element_type": "BloodVessel",
             "zero_d_element_values": {
                 "R_poiseuille": cval_dict[2]["r_poiseuille"],
                 "L": cval_dict[2]["inductance"],
+                "C": 0,
                 "stenosis_coefficient": cval_dict[2]["r_stenosis"]
             }
         },
@@ -195,6 +200,7 @@ def get_input_dict(cval_dict, coef_dict):
             "zero_d_element_values": {
                 "R_poiseuille": cval_dict[3]["r_poiseuille"],
                 "L": cval_dict[3]["inductance"],
+                "C": 0,
                 "stenosis_coefficient": cval_dict[3]["r_stenosis"]
             }
         },
@@ -209,6 +215,7 @@ def get_input_dict(cval_dict, coef_dict):
             "zero_d_element_values": {
                 "R_poiseuille": cval_dict[4]["r_poiseuille"],
                 "L": cval_dict[4]["inductance"],
+                "C": 0,
                 "stenosis_coefficient": cval_dict[4]["r_stenosis"]
             }
         }
@@ -219,6 +226,6 @@ def get_input_dict(cval_dict, coef_dict):
 c_val_dict = get_cval_dict(load_dict("synthetic_tree/node_data_dict"))
 coef_dict = load_dict("synthetic_tree/coef_dict")
 input_dict = get_input_dict(c_val_dict, coef_dict)
-    
+print(coef_dict)
 with open(f"synthetic_tree/synthetic_tree_0d_input.json", "w") as outfile: 
             json.dump(input_dict, outfile)
