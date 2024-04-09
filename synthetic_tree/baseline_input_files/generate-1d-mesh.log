@@ -29,20 +29,20 @@
 [generate-1d-mesh] INFO - Viscosity: 0.040000
 [generate-1d-mesh] INFO - Wall properties are uniform.
 [generate-1d-mesh] INFO - Read centerlines from the file: synthetic_tree/centerlines/centerline.vtp
-[generate-1d-mesh] INFO -    Number of points: 3445 
-[generate-1d-mesh] INFO -    Number of cells: 3444 
+[generate-1d-mesh] INFO -    Number of points: 2256 
+[generate-1d-mesh] INFO -    Number of cells: 2255 
 [generate-1d-mesh] INFO -    Number of arrays: 0
 [generate-1d-mesh] INFO - Generate the 1D mesh ...
 [generate-1d-mesh] INFO - Read model outlet face names from: synthetic_tree/baseline_input_files/outlet_face_names.dat
 [generate-1d-mesh] INFO - Number of model outlet faces names: 3
-[generate-1d-mesh] INFO - Outlet face names: ['cap_3', 'cap_37', 'cap_38']
+[generate-1d-mesh] INFO - Outlet face names: ['cap_4', 'cap_41', 'cap_42']
 [generate-1d-mesh] INFO - Number of centerline branches: 5
 [generate-1d-mesh] INFO - Number of centerline bifurcations: 2
-[generate-1d-mesh] INFO - Number of svOneDSolver branches: 7
-[generate-1d-mesh] INFO - Number of svOneDSolver joints: 4
+[generate-1d-mesh] INFO - Number of svOneDSolver branches: 11
+[generate-1d-mesh] INFO - Number of svOneDSolver joints: 8
 [generate-1d-mesh] INFO - Set variable outflow boundary conditions ...
-[generate-1d-mesh] INFO - Surface cap_3 boundary condition type resistance
-[generate-1d-mesh] INFO - Surface cap_38 boundary condition type resistance
-[generate-1d-mesh] INFO - Surface cap_37 boundary condition type resistance
+[generate-1d-mesh] INFO - Surface cap_41 boundary condition type resistance
+[generate-1d-mesh] INFO - Surface cap_42 boundary condition type resistance
+[generate-1d-mesh] INFO - Surface cap_4 boundary condition type resistance
 [generate-1d-mesh] INFO - Read inflow BC ...
-[generate-1d-mesh] INFO - Generated 7 segments, 30 nodes and 7 elements.
+[generate-1d-mesh] INFO - Generated 11 segments, 36 nodes and 11 elements.

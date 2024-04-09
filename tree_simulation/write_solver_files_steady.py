@@ -10,7 +10,7 @@ def write_job_steady(anatomy, set_type, geo_name, flow_name, flow_index, num_cor
 #SBATCH --output=/scratch/users/nrubio/job_scripts/{geo_name}_{flow_name}.o%j\n\
 #SBATCH --error=/scratch/users/nrubio/job_scripts/{geo_name}_{flow_name}.e%j\n\
 # The walltime you require for your simulation\n\
-#SBATCH --time=01:00:00\n\
+#SBATCH --time=012:00:00\n\
 # Amount of memory you require per node. The default is 4000 MB (or 4 GB) per node\n\
 #SBATCH --mem=50000\n\
 #SBATCH --nodes={int(num_cores/24)}\n\
@@ -57,10 +57,10 @@ def write_svpre_steady(anatomy, set_type, geo, flow_index, flow_params, cap_numb
     flow_name = f"flow_{flow_index}"
     svpre = f"mesh_and_adjncy_vtu /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-complete.mesh.vtu\n\
 set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-complete.exterior.vtp 1\n\
-set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-surfaces/cap_{inlet_cap_number}.vtp {inlet_cap_number}\n\
-set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-surfaces/cap_{res_caps[0]}.vtp {res_caps[0]}\n\
-set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-surfaces/cap_{res_caps[1]}.vtp {res_caps[1]}\n\
-set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-surfaces/cap_{res_caps[2]}.vtp {res_caps[2]}\n\
+set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-surfaces/cap_{inlet_cap_number}.vtp 2\n\
+set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-surfaces/cap_{res_caps[0]}.vtp 3\n\
+set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-surfaces/cap_{res_caps[1]}.vtp 4\n\
+set_surface_id_vtp /scratch/users/nrubio/synthetic_vessels/{anatomy}/{set_type}/{geo}/mesh-complete/mesh-surfaces/cap_{res_caps[2]}.vtp 5\n\
 fluid_density 1.06\n\
 fluid_viscosity 0.04\n\
 initial_pressure 0\n\
@@ -106,8 +106,8 @@ Time Varying Boundary Conditions From File: True\n\
 \n\
 Step Construction: 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1\n\
 \n\
-Number of Resistance Surfaces: 1\n\
-List of Resistance Surfaces: {res_caps[0]} {res_caps[1]} {res_caps[2]}\n\
+Number of Resistance Surfaces: 3\n\
+List of Resistance Surfaces: 3 4 5\n\
 Resistance Values: {flow_params['res_1']} {flow_params['res_1']} {flow_params['res_1']}\n\
 \n\
 Pressure Coupling: Implicit\n\

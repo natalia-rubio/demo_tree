@@ -149,10 +149,11 @@ def get_inlet2_segmentations(geo_params):
 
     char_len = geo_params["r2"]
     char_len = 0.23*15
-    
-    y_in = np.linspace(-3*char_len,0.0*geo_params["r3"], num_pts, endpoint = True)
+    up_shift = char_len/2#3*char_len/2
+    #y_in = np.linspace(-3*char_len,0.0*geo_params["r3"], num_pts, endpoint = True)
+    y_in = np.linspace(-up_shift*1.5,0.0*geo_params["r3"], num_pts, endpoint = True)
 
-    up_shift = 3*char_len/2
+ 
     inlet_path_points_list_orig = [[0.0, float(y)+up_shift, 0.0] for y in y_in]
     inlet_path_points_list = []
     x_shift = -np.sin(geo_params["angle3"]*np.pi/180)*0.5310796510320017*20
@@ -213,11 +214,11 @@ def get_inlet2_segmentations(geo_params):
 
 def get_u2_segmentations(geo_params):
     print(geo_params)
-    num_pts = 2*4#10
+    num_pts = 4 #2*4#10
     inset = 1
     #char_len = geo_params["inlet_radius"]*12
-    char_len = 0.23*20*2
-    up_shift = 3*0.23*15/2
+    char_len = 0.23*20#*2
+    up_shift = 0.23*15/2#3*0.23*15/2
     #y_in = np.linspace(-char_len, 0, num_pts+1, endpoint = True)
 
 
@@ -231,7 +232,7 @@ def get_u2_segmentations(geo_params):
     outlet1_path_points_list_orig.reverse()
 
 
-    theta = np.ones((num_pts,)) * geo_params["angle5"]
+    theta = np.ones((num_pts,)) * geo_params["angle5"] 
     theta = np.pi/2 - np.pi * theta / 180
     outlet2_x = r * np.cos(theta) #-  geo_params["inlet_radius"]/2
     outlet2_y = r * np.sin(theta)

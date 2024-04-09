@@ -29,7 +29,7 @@ mesh_params = params.MeshParameters()
 model_params = params.ModelParameters()
 model_params.name = "synthetic_tree"
 model_params.inlet_face_names = ['cap_2' ] 
-model_params.outlet_face_names = ['cap_3', 'cap_37', 'cap_38'] 
+model_params.outlet_face_names = ['cap_4', 'cap_41', 'cap_42'] 
 model_params.centerlines_file_name = 'synthetic_tree/centerlines/centerline.vtp' 
 
 ## Fluid properties.
@@ -46,9 +46,9 @@ print("Material model: {0:s}".format(str(material)))
 bcs = params.BoundaryConditions()
 #bcs.add_resistance(face_name='outlet', resistance=1333)
 bcs.add_velocities(face_name='cap_2', file_name='synthetic_tree/inflow.flow')
-bcs.add_resistance(face_name='cap_3', resistance=100.0)
-bcs.add_resistance(face_name='cap_37', resistance=0.0)
-bcs.add_resistance(face_name='cap_38', resistance=0.0)
+bcs.add_resistance(face_name='cap_4', resistance=2500.0)
+bcs.add_resistance(face_name='cap_41', resistance=2500.0)
+bcs.add_resistance(face_name='cap_42', resistance=2500.0)
 
 ## Set solution parameters. 
 #
@@ -64,5 +64,3 @@ rom_simulation.write_input_file(model_order=0, model=model_params, mesh=mesh_par
 ## Run a simulation.
 #
 #fluid_simulation.run(parameters=fluid_params, use_mpi=True, num_processes=4)
-
-

@@ -34,6 +34,8 @@ while num_launched < num_geos:
         continue
 
     for i, inlet_flow_fac in enumerate([0.25, 0.5, 0.75, 1]):
+        if i != 3:
+            continue
         print(f"Launching flow {i}.")    
         try:
             flow_index = i; flow_name = f"flow_{flow_index}"
@@ -46,8 +48,8 @@ while num_launched < num_geos:
             set_up_sim_directories(anatomy, set_type, geo_name, flow_name)
             flow_params = {"flow_amp": inlet_flow*inlet_flow_fac,
                             "vel_in": inlet_flow*inlet_flow_fac/inlet_area,
-                            "res_1": 100,
-                            "res_2": 100}
+                            "res_1": 2500,
+                            "res_2": 2500}
 
             
             write_svpre_steady(anatomy, set_type, geo_name, flow_index, flow_params, copy.deepcopy(cap_numbers), inlet_cap_number, num_time_steps, time_step_size)

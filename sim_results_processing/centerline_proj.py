@@ -114,7 +114,7 @@ def extract_results(fpath_1d, fpath_3d, fpath_out, only_caps=False, num_time_ste
 
 if __name__ == "__main__":
     fpath_1d = "synthetic_tree/centerlines/centerline.vtp"
-    fpath_3d = "synthetic_tree/solution_flow_0.vtu"
+    fpath_3d = "synthetic_tree/solution_flow_3.vtu"
     fpath_out = "synthetic_tree/centerline_sol.vtp"
     extract_results(fpath_1d, fpath_3d, fpath_out, only_caps=False, num_time_steps = 800)
 # def get_res_dict(sol_path1d, only_caps=False, num_time_steps = 2):

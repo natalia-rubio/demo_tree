@@ -14,7 +14,7 @@ from tools.vtk_functions import read_geo, write_geo, calculator, cut_plane, conn
 import pickle
 from sklearn.linear_model import LinearRegression
 
-def sort_result(sol_path1d, only_caps=False, num_time_steps = 800):
+def sort_result(sol_path1d, only_caps=False, num_time_steps = 1000):
     """
     Get all result array names
     Args:
@@ -34,7 +34,7 @@ def sort_result(sol_path1d, only_caps=False, num_time_steps = 800):
     junction_id = soln_array["BifurcationId"].astype(int)
 
     branch_soln_dict = dict()
-    num_time_steps = 800
+
     for i in range(np.max(branch_id)+1):
         
         branch_pts = np.where(branch_id == i)
@@ -46,15 +46,15 @@ def sort_result(sol_path1d, only_caps=False, num_time_steps = 800):
                        "y": locs[:,1],
                        "z": locs[:,2],
                        "dist": dist,
-                       "pressure": soln_array[f"pressure_00{num_time_steps}"][branch_pts][ordered_inds],
-                       "flow": soln_array[f"velocity_00{num_time_steps}"][branch_pts][ordered_inds]}
+                       "pressure": soln_array[f"pressure_{format(int(num_time_steps), '05d')}"][branch_pts][ordered_inds],
+                       "flow": soln_array[f"velocity_{format(int(num_time_steps), '05d')}"][branch_pts][ordered_inds]}
         
         branch_soln_dict.update({i : branch_dict})
     
     save_dict(branch_soln_dict, "synthetic_tree/branch_soln_dict")
     return branch_soln_dict
 
-def get_node_data(sol_path1d, only_caps=False, num_time_steps = 800):
+def get_node_data(sol_path1d, only_caps=False, num_time_steps = 1000):
     soln = read_geo(sol_path1d).GetOutput()
     soln_array = get_all_arrays(soln)
     points = v2n(soln.GetPoints().GetData())
@@ -66,8 +66,11 @@ def get_node_data(sol_path1d, only_caps=False, num_time_steps = 800):
     junction_id = soln_array["BifurcationId"].astype(int)
 
     point_list = ["aorta_inlet", "aorta_right_outlet", "aorta_left_outlet", "pulmo_inlet", "pulmo_right_outlet", "pulmo_left_outlet"]
-    points_of_interest = np.asarray([[0, 3.633, -3.633, -4.813, -5.724, -8.107],
-            [-3.983, 9.981, 9.981, 13.223, 19.433, 18.565],
+    # points_of_interest = np.asarray([[0, 3.633, -3.633, -4.813, -5.724, -8.107],
+    #         [-3.983, 9.981, 9.981, 13.223, 19.433, 18.565],
+    #         [0,0,0,0,0,0]]).T
+    points_of_interest = np.asarray([[0, 3.633, -3.633, -3.633, -4.544, -6.927],
+            [-3.983, 9.981, 9.981, 9.981, 16.191, 15.323],
             [0,0,0,0,0,0]]).T
     node_data_dict = dict()
     for i in range(len(point_list)):
@@ -96,8 +99,8 @@ def get_node_data(sol_path1d, only_caps=False, num_time_steps = 800):
                                                 "x"     : points[point_ind, 0],
                                                 "y"     : points[point_ind, 1],
                                                 "z"     : points[point_ind, 2],
-                                                "pressure" : soln_array[f"pressure_00{num_time_steps}"][point_ind],
-                                                "flow"     : soln_array[f"velocity_00{num_time_steps}"][point_ind],
+                                                "pressure" : soln_array[f"pressure_{format(int(num_time_steps), '05d')}"][point_ind],
+                                                "flow"     : soln_array[f"velocity_{format(int(num_time_steps), '05d')}"][point_ind],
                                                 "area"     : soln_array[f"area"][point_ind],
                                                 "dist_to_bif" : dist_to_bif}})
     print(node_data_dict)    

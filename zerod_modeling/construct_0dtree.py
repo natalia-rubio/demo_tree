@@ -84,7 +84,7 @@ def get_input_dict(cval_dict, coef_dict):
             "bc_type": "RESISTANCE",
             "bc_values": {
                 "Pd": 0.0,
-                "R": 0.0 #100.0
+                "R": 2500.0
             }
         },
         {
@@ -92,7 +92,7 @@ def get_input_dict(cval_dict, coef_dict):
             "bc_type": "RESISTANCE",
             "bc_values": {
                 "Pd": 0.0,
-                "R": 0.0 #100.0
+                "R": 2500.0
             }
         },
         {
@@ -100,7 +100,7 @@ def get_input_dict(cval_dict, coef_dict):
             "bc_type": "RESISTANCE",
             "bc_values": {
                 "Pd": 0.0,
-                "R": 100.0
+                "R": 2500.0
             }
         }
     ],
